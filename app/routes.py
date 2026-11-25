@@ -6,6 +6,7 @@ from app.errors import DomainIssue
 from app.evidence.render import render
 from app.review.service import approve, create_run, serialize
 from app.service import pipeline
+from app.corrections import service as correction_service
 
 
 api = Blueprint("api", __name__)
@@ -73,3 +74,45 @@ def example(profile):
     if profile not in {"clean", "dirty"}:
         abort(404)
     return send_file(SAMPLES / f"{profile}.csv", as_attachment=True)
+
+
+@api.post("/api/corrections")
+def submit_correction():
+    data = request.get_json(silent=True) or {}
+    return jsonify(correction_service.submit(store_corrections(), data))
+
+
+@api.get("/api/corrections/batches/<batch_id>")
+def get_correction_batch(batch_id):
+    record = store_corrections().get_batch(batch_id)
+    if not record:
+        raise DomainIssue("RUN_NOT_FOUND", 404)
+    record["corrections"] = store_corrections().list_corrections(batch_id)
+    return jsonify(record)
+
+
+@api.get("/api/corrections/current")
+def current_results():
+    profile = request.args.get("profile", "clean")
+    return jsonify(correction_service.current(store_corrections(), profile))
+
+
+@api.get("/api/stations/<station_id>/months/<month>/versions")
+def month_versions(station_id, month):
+    versions = store_corrections().month_versions(station_id, month)
+    if not versions:
+        raise DomainIssue("VERSION_NOT_FOUND", 404)
+    return jsonify(station_id=station_id, month=month, versions=versions)
+
+
+@api.get("/api/month-versions/<version_id>/evidence")
+def month_version_evidence(version_id):
+    evidence = store_corrections().version_evidence(version_id)
+    if evidence is None:
+        raise DomainIssue("VERSION_NOT_FOUND", 404)
+    return jsonify(evidence)
+
+
+def store_corrections():
+    from flask import current_app
+    return current_app.extensions["corrections"]

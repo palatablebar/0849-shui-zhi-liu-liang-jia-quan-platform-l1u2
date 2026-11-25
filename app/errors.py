@@ -18,6 +18,9 @@ MESSAGES = {
     "GATE_BLOCKED": "存在阻断项，不能签发",
     "NOT_APPROVED": "批次尚未签发",
     "BAD_REQUEST": "请求内容不完整",
+    "NO_APPROVED_BASELINE": "尚无已签发月报，不能受理采样时间更正",
+    "VERSION_NOT_FOUND": "月报版本不存在",
+    "CORRECTION_CONFLICT": "更正与已生效内容冲突",
 }
 
 

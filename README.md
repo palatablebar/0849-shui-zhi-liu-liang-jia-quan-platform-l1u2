@@ -23,5 +23,9 @@ docker compose config --quiet
 2. 选择 `dirty` 样例观察坏行和隔离原因。
 3. 换 `clean` 样例执行批次，填写复核意见后签发。
 4. 下载证据 JSON，核对来源摘要、指标和签发版本。
+5. 签发后在「采样时间更正」面板提交更正（带幂等键）：跨月水样只计入更正后的月份；
+   关联月份可签发时一起发布，存在重算失败或阻断时牵连月份保留旧版并标待核。
+6. 用「查现行结果」查看各站点-月份的现行流量加权结果、版本号与待核标记。
 
-业务规则见 `docs/BUSINESS-RULES.md`，字段定义见 `docs/DATA-DICTIONARY.md`。
+业务规则见 `docs/BUSINESS-RULES.md`，字段定义见 `docs/DATA-DICTIONARY.md`，
+更正接口见 `docs/HTTP.md`。

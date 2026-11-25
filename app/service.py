@@ -61,11 +61,14 @@ def pipeline(profile="dirty", path=None, upto="证据交付"):
                          if key in {"label", "verdict", "reason", "metric", "limit", "status", "state", "breakdown"}
                          or key in SPEC["columns"] or key in SPEC["result_columns"]})
     source = {"profile": profile, "filename": Path(intake["path"]).name, "sha256": intake["sha256"]}
+    # 基线样本快照：采样时间更正以已签发批次的整理结果为同源基线
+    baseline_samples = [{key: item.get(key) for key in SPEC["columns"]} for item in prepared]
     payload = {
         "project": SPEC["code"] + " " + SPEC["name"],
         "rule": SPEC["rule_short"],
         "profile": profile,
         "source": source,
+        "baseline_samples": baseline_samples,
         "counts": intake["counts"],
         "issues": issues[:60],
         "rows": rows,

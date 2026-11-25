@@ -15,6 +15,7 @@
 | M5 运行对账 | 核对来源行、采信、隔离、重复与计算条目 | `POST /api/stages/reconcile` | `app/reconcile/ledger.py` | `tests/test_reconcile.py` |
 | M6 批次复核 | 带版本号签发或暂缓，拒绝陈旧复核 | `POST /api/runs/{id}/review` | `app/review/service.py` | `tests/test_review.py` |
 | M7 证据交付 | 仅在签发后输出可校验的复核证据 | `GET /api/runs/{id}/evidence` | `app/evidence/render.py` | `tests/test_evidence.py` |
+| M8 时间更正 | 跨月水样计入新月，关联组件整体发布或待核，版本链可溯 | `POST /api/corrections` | `app/corrections/engine.py`、`app/corrections/store.py` | `tests/test_correction_engine.py`、`tests/test_corrections_api.py`、`tests/test_correction_store.py` |
 
 ## 输入陷阱
 

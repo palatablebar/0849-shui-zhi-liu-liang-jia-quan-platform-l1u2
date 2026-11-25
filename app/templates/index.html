@@ -39,6 +39,22 @@
         </div>
       </div>
     </article>
+    <article class="panel" id="panel-correction">
+      <div class="panel-head"><h2>采样时间更正</h2><span class="hint">签发后受理</span></div>
+      <div class="review">
+        <label for="corr-sample">样本编号</label>
+        <input id="corr-sample" type="text" placeholder="如 W001">
+        <label for="corr-at">更正后采样时间</label>
+        <input id="corr-at" type="text" placeholder="YYYY-MM-DD HH:MM">
+        <label for="corr-key">幂等键</label>
+        <input id="corr-key" type="text" placeholder="同一更正重试保持不变">
+        <div class="review-actions">
+          <button id="corr-submit" type="button">提交更正</button>
+          <button id="corr-current" type="button">查现行结果</button>
+        </div>
+        <ul class="issues" id="corr-list"><li class="empty">尚未提交更正</li></ul>
+      </div>
+    </article>
   </section>
 </main>
 {% endblock %}
